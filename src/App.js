@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from 'react'
+import { Loader } from './components/Loader/Loader';
+import { UnsplashImg } from './components/Image/UnsplashImg';
+import s from "./App.module.scss"
+import InfiniteScroll from 'react-infinite-scroll-component';
+import { fetchImages } from './redux/imageReducer';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App({state, dispatch}) {
+
+    return (
+        <div className={s.App}>
+            <InfiniteScroll
+                dataLength={state.length} 
+                next={dispatch(fetchImages())} 
+                hasMore={true} 
+                loader={<Loader />}>
+                <div className={s.wrapper}>
+                    {state.map(image => <UnsplashImg small={image.urls.small} big={image.urls.full} key={image.id} author={image.user.name}/>)}
+                </div>
+            </InfiniteScroll>
+        </div>
+    );
 }
 
 export default App;
