@@ -11,6 +11,12 @@ function App({ state, dispatch }) {
         setTimeout(() => dispatch(fetchImages(state)), 2000)
     }
 
+    if(state.length === 1){
+        next()
+    }
+
+    window.state = state
+
     return (
         <div className={s.App}>
             <InfiniteScroll
