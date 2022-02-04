@@ -1,21 +1,25 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Loader } from './components/Loader/Loader';
 import { UnsplashImg } from './components/Image/UnsplashImg';
 import s from "./App.module.scss"
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { fetchImages } from './redux/imageReducer';
 
-function App({state, dispatch}) {
+function App({ state, dispatch }) {
+
+    function next() {
+        setTimeout(() => dispatch(fetchImages(state)), 2000)
+    }
 
     return (
         <div className={s.App}>
             <InfiniteScroll
-                dataLength={state.length} 
-                next={dispatch(fetchImages())} 
-                hasMore={true} 
+                dataLength={state.length}
+                next={next}
+                hasMore={true}
                 loader={<Loader />}>
                 <div className={s.wrapper}>
-                    {state.map(image => <UnsplashImg small={image.urls.small} big={image.urls.full} key={image.id} author={image.user.name}/>)}
+                    {state.map(image => <UnsplashImg small={image.urls.small} big={image.urls.full} key={image.id} author={image.user.name} />)}
                 </div>
             </InfiniteScroll>
         </div>

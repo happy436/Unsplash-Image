@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import { Header } from './shared/header/Header';
-import { Footer } from './shared/footer/Footer';
 import store from "./redux/redux-store"
 import './index.scss';
 
@@ -16,7 +15,6 @@ let reRender = (state) => {
                 state={store.getState().ImageReducer}
                 dispatch={store.dispatch}
             />
-            <Footer />
         </React.StrictMode>,
         document.getElementById('root')
     );
@@ -25,6 +23,6 @@ let reRender = (state) => {
 reRender(store.getState())
 
 store.subscribe(() => {
-    let state = localStorage.setItem('reduxState', JSON.stringify(store.getState()))
+    let state = store.getState()
     reRender(state);
 })
